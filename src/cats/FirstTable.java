@@ -19,6 +19,10 @@ public class FirstTable {
         Class.forName(DB_Driver);
         types = new Types();
         types.createTable();
+
+        types.insert("Абиссинская кошка");
+        types.insert("Австралийский мист");
+        types.insert("Американская жесткошерстная");
     }
 
     public static void main(String[] args) {

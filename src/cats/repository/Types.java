@@ -7,11 +7,15 @@ public class Types extends BaseTable implements TableOperations {
         super("types");
     }
 
+    public boolean insert(String type) throws SQLException {
+        return super.executeSqlStatement("insert into " + this.tableName + "(type) values ('" + type + "')");
+    }
+
     @Override
     public void createTable() throws SQLException {
         super.executeSqlStatement(
                 "create table if not exists types (" +
-                "id integer auto_increment primary key," +
+                "id integer not null primary key autoincrement unique," +
                 "type varchar(100) not null)");
     }
 
