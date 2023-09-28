@@ -1,6 +1,8 @@
 package cats.repository;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Types extends BaseTable implements TableOperations {
     public Types() throws SQLException {
@@ -27,5 +29,24 @@ public class Types extends BaseTable implements TableOperations {
     @Override
     public void createExtraConstraints() throws SQLException {
 
+    }
+
+    public ResultSet getTypeByName(String type) throws SQLException {
+        reopenConnection();
+        Statement statement = connection.createStatement();
+        ResultSet result = statement.executeQuery("select * from " + this.tableName + " where type = '" + type + "'");
+        return result;
+    }
+
+    public void addAllTypes() throws SQLException {
+        for (String type : TypesArray.getTypesArray()) {
+            ResultSet resultSet = getTypeByName(type);
+            if (resultSet.next()) {
+                System.out.println(type + " - found; id = " + resultSet.getInt("id"));
+            } else {
+                insert(type);
+                System.out.println(type + " - not found");
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package cats.repository;
 import cats.FirstTable;
 import java.io.Closeable;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -35,6 +36,12 @@ public class BaseTable implements Closeable {
 
         return result;
     };
+
+    ResultSet query(String sql) throws SQLException {
+        reopenConnection();
+        Statement statement = connection.createStatement();
+        return statement.executeQuery(sql);
+    }
 
     void reopenConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
