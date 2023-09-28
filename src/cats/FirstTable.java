@@ -27,6 +27,15 @@ public class FirstTable {
     public static void main(String[] args) {
         try {
             FirstTable app = new FirstTable();
+
+            app.types.delete(100);
+            app.types.delete(199);
+            app.types.delete(200);
+
+            app.types.update(201, "Кошка 201");
+            app.types.update(202, "Кошка 202");
+            app.types.update(203, "Кошка 203");
+
             FirstTable.getConnection().close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

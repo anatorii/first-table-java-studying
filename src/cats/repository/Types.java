@@ -39,14 +39,30 @@ public class Types extends BaseTable implements TableOperations {
     }
 
     public void addAllTypes() throws SQLException {
+        reopenConnection();
+        Statement statement = connection.createStatement();
         for (String type : TypesArray.getTypesArray()) {
-            ResultSet resultSet = getTypeByName(type);
-            if (resultSet.next()) {
-                System.out.println(type + " - found; id = " + resultSet.getInt("id"));
-            } else {
+            ResultSet resultSet = statement.executeQuery("select * from " + this.tableName + " where type = '" + type + "'");
+            if (!resultSet.next()) {
                 insert(type);
-                System.out.println(type + " - not found");
             }
         }
+        statement.close();
+    }
+
+    public void delete(int id) throws SQLException {
+        reopenConnection();
+        Statement statement = connection.createStatement();
+        statement.execute("delete from " + this.tableName + " where id = " + id);
+        statement.close();
+    }
+
+    public void update(int id, String type) throws SQLException {
+        reopenConnection();
+        Statement statement = connection.createStatement();
+        statement.execute("update " + this.tableName + " set " +
+                " type = '" + type + "'" +
+                " where id = " + id);
+        statement.close();
     }
 }
