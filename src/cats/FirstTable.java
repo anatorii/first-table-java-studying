@@ -28,13 +28,23 @@ public class FirstTable {
         try {
             FirstTable app = new FirstTable();
 
-            app.types.delete(100);
-            app.types.delete(199);
-            app.types.delete(200);
+            ResultSet rows = app.types.getTypeByWhere("type like '%кошка%'");
 
-            app.types.update(201, "Кошка 201");
-            app.types.update(202, "Кошка 202");
-            app.types.update(203, "Кошка 203");
+            int i = 0;
+            while (rows.next()) {
+                i++;
+                System.out.println(rows.getString("type"));
+            }
+            System.out.println("total - " + i);
+            System.out.println();
+
+            rows = app.types.getTypeById(230);
+            i = 0;
+            while (rows.next()) {
+                i++;
+                System.out.println(rows.getString("type"));
+            }
+            System.out.println("total - " + i);
 
             FirstTable.getConnection().close();
         } catch (ClassNotFoundException e) {
