@@ -28,9 +28,11 @@ public class FirstTable {
         try {
             FirstTable app = new FirstTable();
 
-            ResultSet rows = app.types.getTypeByWhere("type like '%кошка%'");
+            int i;
+            ResultSet rows;
 
-            int i = 0;
+            i = 0;
+            rows = app.types.getTypeByWhere("type like '%кошка%'");
             while (rows.next()) {
                 i++;
                 System.out.println(rows.getString("type"));
@@ -38,13 +40,23 @@ public class FirstTable {
             System.out.println("total - " + i);
             System.out.println();
 
-            rows = app.types.getTypeById(230);
             i = 0;
+            rows = app.types.getTypeById(230);
             while (rows.next()) {
                 i++;
                 System.out.println(rows.getString("type"));
             }
             System.out.println("total - " + i);
+            System.out.println();
+
+            i = 0;
+            rows = app.types.getTypeByName("Сноу-шу");
+            while (rows.next()) {
+                i++;
+                System.out.println(rows.getString("type"));
+            }
+            System.out.println("total - " + i);
+            System.out.println();
 
             FirstTable.getConnection().close();
         } catch (ClassNotFoundException e) {

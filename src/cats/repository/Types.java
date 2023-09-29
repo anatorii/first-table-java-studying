@@ -31,26 +31,20 @@ public class Types extends BaseTable implements TableOperations {
 
     }
 
-    public ResultSet getTypeById(int id) throws SQLException {
-        reopenConnection();
-        Statement statement = connection.createStatement();
-        ResultSet result = statement.executeQuery("select * from " + this.tableName + " where id = '" + id + "'");
-        return result;
-    }
-
-    public ResultSet getTypeByName(String type) throws SQLException {
-        reopenConnection();
-        Statement statement = connection.createStatement();
-        ResultSet result = statement.executeQuery("select * from " + this.tableName + " where type = '" + type + "'");
-        return result;
-    }
-
     public ResultSet getTypeByWhere(String whereParams) throws SQLException {
         String where = whereParams.equals("") ? "" : " where " + whereParams;
         reopenConnection();
         Statement statement = connection.createStatement();
         ResultSet result = statement.executeQuery("select * from " + this.tableName + where);
         return result;
+    }
+
+    public ResultSet getTypeById(int id) throws SQLException {
+        return getTypeByWhere("id = " + id);
+    }
+
+    public ResultSet getTypeByName(String type) throws SQLException {
+        return getTypeByWhere("type = '" + type + "'");
     }
 
     public ResultSet getAll() throws SQLException {
