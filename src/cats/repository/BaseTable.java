@@ -48,4 +48,29 @@ public class BaseTable implements Closeable {
             connection = FirstTable.getConnection();
         }
     }
+
+    public ResultSet getByWhere(String whereParams) throws SQLException {
+        String where = whereParams.equals("") ? "" : " where " + whereParams;
+
+        reopenConnection();
+        Statement statement = connection.createStatement();
+        ResultSet result = statement.executeQuery("select * from " + this.tableName + where);
+        return result;
+    }
+
+    public ResultSet getById(int id) throws SQLException {
+        return getByWhere("id = " + id);
+    }
+
+    public ResultSet getAll() throws SQLException {
+        return getByWhere("");
+    }
+
+    public void deleteById(int id) throws SQLException {
+        reopenConnection();
+        Statement statement = connection.createStatement();
+        statement.execute("delete from " + this.tableName + " where id = " + id);
+        statement.close();
+    }
+
 }

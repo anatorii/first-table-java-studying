@@ -1,5 +1,6 @@
 package cats;
 
+import cats.repository.Cats;
 import cats.repository.Types;
 import cats.repository.TypesArray;
 
@@ -12,6 +13,7 @@ public class FirstTable {
     public static final String DB_URL = "jdbc:sqlite:db/cats.db";
     public static final String DB_Driver = "org.sqlite.JDBC";
     Types types;
+    Cats cats;
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL);
@@ -20,7 +22,9 @@ public class FirstTable {
     public FirstTable() throws ClassNotFoundException, SQLException {
         Class.forName(DB_Driver);
         types = new Types();
+        cats = new Cats();
         types.createTable();
+        cats.createTable();
         types.addAllTypes();
     }
 
@@ -32,7 +36,7 @@ public class FirstTable {
             ResultSet rows;
 
             i = 0;
-            rows = app.types.getTypeByWhere("type like '%кошка%'");
+            rows = app.types.getByWhere("type like '%кошка%'");
             while (rows.next()) {
                 i++;
                 System.out.println(rows.getString("type"));
@@ -41,7 +45,7 @@ public class FirstTable {
             System.out.println();
 
             i = 0;
-            rows = app.types.getTypeById(230);
+            rows = app.types.getById(230);
             while (rows.next()) {
                 i++;
                 System.out.println(rows.getString("type"));
@@ -50,7 +54,7 @@ public class FirstTable {
             System.out.println();
 
             i = 0;
-            rows = app.types.getTypeByName("Сноу-шу");
+            rows = app.types.getByName("Сноу-шу");
             while (rows.next()) {
                 i++;
                 System.out.println(rows.getString("type"));

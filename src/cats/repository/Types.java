@@ -9,10 +9,6 @@ public class Types extends BaseTable implements TableOperations {
         super("types");
     }
 
-    public boolean insert(String type) throws SQLException {
-        return super.executeSqlStatement("insert into " + this.tableName + "(type) values ('" + type + "')");
-    }
-
     @Override
     public void createTable() throws SQLException {
         super.executeSqlStatement(
@@ -31,24 +27,8 @@ public class Types extends BaseTable implements TableOperations {
 
     }
 
-    public ResultSet getTypeByWhere(String whereParams) throws SQLException {
-        String where = whereParams.equals("") ? "" : " where " + whereParams;
-        reopenConnection();
-        Statement statement = connection.createStatement();
-        ResultSet result = statement.executeQuery("select * from " + this.tableName + where);
-        return result;
-    }
-
-    public ResultSet getTypeById(int id) throws SQLException {
-        return getTypeByWhere("id = " + id);
-    }
-
-    public ResultSet getTypeByName(String type) throws SQLException {
-        return getTypeByWhere("type = '" + type + "'");
-    }
-
-    public ResultSet getAll() throws SQLException {
-        return getTypeByWhere("");
+    public ResultSet getByName(String type) throws SQLException {
+        return getByWhere("type = '" + type + "'");
     }
 
     public void addAllTypes() throws SQLException {
@@ -64,10 +44,11 @@ public class Types extends BaseTable implements TableOperations {
     }
 
     public void delete(int id) throws SQLException {
-        reopenConnection();
-        Statement statement = connection.createStatement();
-        statement.execute("delete from " + this.tableName + " where id = " + id);
-        statement.close();
+        deleteById(id);
+    }
+
+    public boolean insert(String type) throws SQLException {
+        return super.executeSqlStatement("insert into " + this.tableName + "(type) values ('" + type + "')");
     }
 
     public void update(int id, String type) throws SQLException {
