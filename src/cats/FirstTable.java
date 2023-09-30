@@ -62,6 +62,10 @@ public class FirstTable {
             System.out.println("total - " + i);
             System.out.println();
 
+            app.cats.insert("котик", "Уличная кошка", 2, 4.0);
+            app.cats.insert("мурзик", "Меконгский бобтейл", 1, 4.1);
+            app.cats.insert("мурзик 2", "Дворовая", 1, 4.1);
+
             FirstTable.getConnection().close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

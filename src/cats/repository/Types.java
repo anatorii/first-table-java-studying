@@ -51,12 +51,9 @@ public class Types extends BaseTable implements TableOperations {
         return super.executeSqlStatement("insert into " + this.tableName + "(type) values ('" + type + "')");
     }
 
-    public void update(int id, String type) throws SQLException {
-        reopenConnection();
-        Statement statement = connection.createStatement();
-        statement.execute("update " + this.tableName + " set " +
+    public boolean update(int id, String type) throws SQLException {
+        return super.executeSqlStatement("update " + this.tableName + " set " +
                 " type = '" + type + "'" +
                 " where id = " + id);
-        statement.close();
     }
 }
