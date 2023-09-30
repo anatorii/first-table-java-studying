@@ -27,10 +27,6 @@ public class Types extends BaseTable implements TableOperations {
 
     }
 
-    public ResultSet getByName(String type) throws SQLException {
-        return getByWhere("type = '" + type + "'");
-    }
-
     public void addAllTypes() throws SQLException {
         reopenConnection();
         Statement statement = connection.createStatement();
@@ -43,8 +39,8 @@ public class Types extends BaseTable implements TableOperations {
         statement.close();
     }
 
-    public void delete(int id) throws SQLException {
-        deleteById(id);
+    public ResultSet getByName(String type) throws SQLException {
+        return getByWhere("type = '" + type + "'");
     }
 
     public boolean insert(String type) throws SQLException {
@@ -52,8 +48,6 @@ public class Types extends BaseTable implements TableOperations {
     }
 
     public boolean update(int id, String type) throws SQLException {
-        return super.executeSqlStatement("update " + this.tableName + " set " +
-                " type = '" + type + "'" +
-                " where id = " + id);
+        return super.updateById("type = '" + type + "'", id);
     }
 }

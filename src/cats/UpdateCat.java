@@ -6,12 +6,12 @@ import cats.repository.Types;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class FirstTable {
+public class UpdateCat {
     static final Config config = new Config();
     Types types;
     Cats cats;
 
-    public FirstTable() throws ClassNotFoundException, SQLException {
+    public UpdateCat() throws ClassNotFoundException, SQLException {
         Class.forName(config.get("DB_Driver"));
         types = new Types();
         cats = new Cats();
@@ -22,43 +22,52 @@ public class FirstTable {
 
     public static void main(String[] args) {
         try {
-            FirstTable app = new FirstTable();
+            UpdateCat app = new UpdateCat();
 
             int i;
             ResultSet rows;
 
             i = 0;
-            rows = app.types.getByWhere("type like '%кошка%'");
+            rows = app.cats.getByWhere("name like '%Том%'");
             while (rows.next()) {
                 i++;
-                System.out.println(rows.getString("type"));
+                System.out.println(rows.getInt("id") + " " + rows.getString("name"));
             }
             System.out.println("total - " + i);
             System.out.println();
+
+            app.cats.deleteById(8505);
 
             i = 0;
-            rows = app.types.getById(230);
+            rows = app.cats.getByWhere("name like '%Том%'");
             while (rows.next()) {
                 i++;
-                System.out.println(rows.getString("type"));
+                System.out.println(rows.getInt("id") + " " + rows.getString("name"));
             }
             System.out.println("total - " + i);
             System.out.println();
+
+            app.cats.deleteByWhere("name like '%Том%' and id > 10000");
 
             i = 0;
-            rows = app.types.getByName("Сноу-шу");
+            rows = app.cats.getByWhere("name like '%Том%'");
             while (rows.next()) {
                 i++;
-                System.out.println(rows.getString("type"));
+                System.out.println(rows.getInt("id") + " " + rows.getString("name"));
             }
             System.out.println("total - " + i);
             System.out.println();
 
-            app.cats.insert("котик", "Уличная кошка", 2, 4.0);
-            app.cats.insert("мурзик", "Меконгский бобтейл", 1, 4.1);
-            app.cats.insert("мурзик 2", "Дворовая", 1, 4.1);
+            app.cats.updateByWhere("name = 'Томас', age  = 2", "name like '%Том%'");
 
-            app.cats.addNumberCats(5000);
+            i = 0;
+            rows = app.cats.getByWhere("name like '%Том%'");
+            while (rows.next()) {
+                i++;
+                System.out.println(rows.getInt("id") + " " + rows.getString("name"));
+            }
+            System.out.println("total - " + i);
+            System.out.println();
 
             Connection.close();
         } catch (ClassNotFoundException e) {
@@ -69,4 +78,6 @@ public class FirstTable {
             System.out.println("Ошибка SQL !");
         }
     }
+
 }
+

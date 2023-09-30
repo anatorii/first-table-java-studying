@@ -2,24 +2,17 @@ package cats;
 
 import cats.repository.Cats;
 import cats.repository.Types;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
+import cats.repository.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CatsSelect {
-    public static final String DB_URL = "jdbc:sqlite:db/cats.db";
-    public static final String DB_Driver = "org.sqlite.JDBC";
+    static final Config config = new Config();
     Types types;
     Cats cats;
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL);
-    }
-
     public CatsSelect() throws ClassNotFoundException, SQLException {
-        Class.forName(DB_Driver);
+        Class.forName(config.get("DB_Driver"));
         types = new Types();
         cats = new Cats();
         types.createTable();
@@ -29,7 +22,7 @@ public class CatsSelect {
 
     public static void main(String[] args) {
         try {
-            FirstTable app = new FirstTable();
+            CatsSelect app = new CatsSelect();
 
             int i;
             ResultSet rows;
@@ -62,7 +55,7 @@ public class CatsSelect {
             System.out.println();
 
 
-            FirstTable.getConnection().close();
+            Connection.close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("JDBC драйвер для СУБД не найден!");
