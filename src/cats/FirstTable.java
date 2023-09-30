@@ -66,6 +66,8 @@ public class FirstTable {
             app.cats.insert("мурзик", "Меконгский бобтейл", 1, 4.1);
             app.cats.insert("мурзик 2", "Дворовая", 1, 4.1);
 
+            app.cats.addNumberCats(5000);
+
             FirstTable.getConnection().close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

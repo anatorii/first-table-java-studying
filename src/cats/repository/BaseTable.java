@@ -37,7 +37,14 @@ public class BaseTable implements Closeable {
         return result;
     };
 
-    ResultSet query(String sql) throws SQLException {
+    public Statement statementOfQuery(String sql) throws SQLException {
+        reopenConnection();
+        Statement statement = connection.createStatement();
+        statement.executeQuery(sql);
+        return statement;
+    }
+
+    public ResultSet query(String sql) throws SQLException {
         reopenConnection();
         Statement statement = connection.createStatement();
         return statement.executeQuery(sql);
@@ -51,11 +58,7 @@ public class BaseTable implements Closeable {
 
     public ResultSet getByWhere(String whereParams) throws SQLException {
         String where = whereParams.equals("") ? "" : " where " + whereParams;
-
-        reopenConnection();
-        Statement statement = connection.createStatement();
-        ResultSet result = statement.executeQuery("select * from " + this.tableName + where);
-        return result;
+        return query("select * from " + this.tableName + where);
     }
 
     public ResultSet getById(int id) throws SQLException {
